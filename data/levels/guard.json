@@ -1,0 +1,30 @@
+{
+  "name": "guard",
+  "displayName": "Elite Guard Room",
+  "width": 35,
+  "height": 18,
+  "tileSize": 32,
+  "bgColor": [0.12, 0.05, 0.05],
+  "bgImage": "bg/Map_back_1.png",
+  "bgmName": "boss_epic",
+  "defaultSpawn": [80, 86],
+  "locked": true,
+  "platforms": [
+    {"x": 0, "y": 0, "w": 35, "h": 1, "tile": 11},
+    {"x": 0, "y": 1, "w": 35, "h": 1, "tile": 9},
+    {"x": 0, "y": 2, "w": 1, "h": 14, "tile": 17},
+    {"x": 34, "y": 2, "w": 1, "h": 14, "tile": 17},
+    {"x": 8, "y": 4, "w": 6, "h": 1, "tile": 9},
+    {"x": 20, "y": 5, "w": 8, "h": 1, "tile": 9},
+    {"x": 14, "y": 8, "w": 5, "h": 1, "tile": 9}
+  ],
+  "enemies": [
+    {"type": "hybrid", "pos": [500, 86], "patrolMin": 300, "patrolMax": 700, "hp": 80, "atk": 15},
+    {"type": "melee", "pos": [700, 86], "patrolMin": 550, "patrolMax": 850, "hp": 70, "atk": 14},
+    {"type": "ranged", "pos": [350, 86], "patrolMin": 200, "patrolMax": 500, "hp": 45, "atk": 16}
+  ],
+  "triggers": [
+    {"type": "door", "pos": [60, 86], "target": "lab", "spawn": [1340, 86], "label": "<- Lab"},
+    {"type": "door", "pos": [1060, 86], "target": "boss", "spawn": [80, 86], "label": "BOSS ->"}
+  ]
+}

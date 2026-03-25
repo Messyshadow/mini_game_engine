@@ -1,0 +1,104 @@
+# ============================================================================
+# GLFW 配置文件
+# ============================================================================
+
+# 设置glfw所在目录（匹配你的目录名）
+set(GLFW_SOURCE_DIR depends/glfw-3.3-3.4)
+
+# ============================================================================
+# 平台检测
+# ============================================================================
+if (WIN32)
+    set(_GLFW_WIN32 1)
+    add_definitions(-D _GLFW_WIN32)
+    link_libraries(opengl32)
+    message(STATUS "Using Win32 for window creation")
+elseif (APPLE)
+    set(_GLFW_COCOA 1)
+    add_definitions(-D _GLFW_COCOA)
+    list(APPEND glfw_LIBRARIES
+            "-framework Cocoa"
+            "-framework IOKit"
+            "-framework CoreFoundation"
+            "-framework OpenGL")
+    link_libraries(${glfw_LIBRARIES})
+    message(STATUS "Using Cocoa for window creation")
+elseif (UNIX)
+    set(_GLFW_X11 1)
+    add_definitions(-D _GLFW_X11)
+    find_package(OpenGL REQUIRED)
+    find_package(X11 REQUIRED)
+    link_libraries(${OPENGL_LIBRARIES} ${X11_LIBRARIES} pthread dl)
+    message(STATUS "Using X11 for window creation")
+else()
+    message(FATAL_ERROR "No supported platform was detected")
+endif()
+
+# ============================================================================
+# 通用源文件
+# ============================================================================
+set(common_HEADERS 
+    ${GLFW_SOURCE_DIR}/src/internal.h 
+    ${GLFW_SOURCE_DIR}/src/mappings.h
+    ${GLFW_SOURCE_DIR}/include/GLFW/glfw3.h
+    ${GLFW_SOURCE_DIR}/include/GLFW/glfw3native.h)
+
+set(common_SOURCES 
+    ${GLFW_SOURCE_DIR}/src/context.c 
+    ${GLFW_SOURCE_DIR}/src/init.c 
+    ${GLFW_SOURCE_DIR}/src/input.c 
+    ${GLFW_SOURCE_DIR}/src/monitor.c 
+    ${GLFW_SOURCE_DIR}/src/vulkan.c 
+    ${GLFW_SOURCE_DIR}/src/window.c)
+
+# 头文件目录
+include_directories("${GLFW_SOURCE_DIR}/include")
+include_directories("${GLFW_SOURCE_DIR}/deps")
+
+# ============================================================================
+# GLAD (OpenGL加载器)
+# ============================================================================
+set(GLAD_GL 
+    ${GLFW_SOURCE_DIR}/deps/glad/gl.h
+    ${GLFW_SOURCE_DIR}/deps/glad_gl.c)
+
+# ============================================================================
+# 平台相关源文件
+# ============================================================================
+if (_GLFW_WIN32)
+    set(glfw_sources ${common_SOURCES} ${GLAD_GL}
+        ${GLFW_SOURCE_DIR}/src/win32_init.c 
+        ${GLFW_SOURCE_DIR}/src/win32_joystick.c
+        ${GLFW_SOURCE_DIR}/src/win32_monitor.c 
+        ${GLFW_SOURCE_DIR}/src/win32_time.c 
+        ${GLFW_SOURCE_DIR}/src/win32_thread.c 
+        ${GLFW_SOURCE_DIR}/src/win32_window.c
+        ${GLFW_SOURCE_DIR}/src/wgl_context.c 
+        ${GLFW_SOURCE_DIR}/src/egl_context.c 
+        ${GLFW_SOURCE_DIR}/src/osmesa_context.c)
+        
+elseif (_GLFW_COCOA)
+    set(glfw_sources ${common_SOURCES} ${GLAD_GL}
+        ${GLFW_SOURCE_DIR}/src/cocoa_init.m 
+        ${GLFW_SOURCE_DIR}/src/cocoa_joystick.m
+        ${GLFW_SOURCE_DIR}/src/cocoa_monitor.m 
+        ${GLFW_SOURCE_DIR}/src/cocoa_window.m 
+        ${GLFW_SOURCE_DIR}/src/cocoa_time.c 
+        ${GLFW_SOURCE_DIR}/src/posix_thread.c
+        ${GLFW_SOURCE_DIR}/src/nsgl_context.m 
+        ${GLFW_SOURCE_DIR}/src/egl_context.c 
+        ${GLFW_SOURCE_DIR}/src/osmesa_context.c)
+        
+elseif (_GLFW_X11)
+    set(glfw_sources ${common_SOURCES} ${GLAD_GL}
+        ${GLFW_SOURCE_DIR}/src/x11_init.c 
+        ${GLFW_SOURCE_DIR}/src/x11_monitor.c 
+        ${GLFW_SOURCE_DIR}/src/x11_window.c
+        ${GLFW_SOURCE_DIR}/src/xkb_unicode.c 
+        ${GLFW_SOURCE_DIR}/src/posix_time.c 
+        ${GLFW_SOURCE_DIR}/src/posix_thread.c
+        ${GLFW_SOURCE_DIR}/src/glx_context.c
+        ${GLFW_SOURCE_DIR}/src/egl_context.c 
+        ${GLFW_SOURCE_DIR}/src/osmesa_context.c
+        ${GLFW_SOURCE_DIR}/src/linux_joystick.c)
+endif()

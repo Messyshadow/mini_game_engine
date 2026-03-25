@@ -1,0 +1,30 @@
+{
+  "name": "hall",
+  "displayName": "Entrance Hall",
+  "width": 40,
+  "height": 18,
+  "tileSize": 32,
+  "bgColor": [0.08, 0.1, 0.2],
+  "bgImage": "bg/Map_back_0.png",
+  "bgmName": "bgm",
+  "defaultSpawn": [100, 86],
+  "platforms": [
+    {"x": 0, "y": 0, "w": 40, "h": 1, "tile": 11},
+    {"x": 0, "y": 1, "w": 40, "h": 1, "tile": 9},
+    {"x": 0, "y": 2, "w": 1, "h": 12, "tile": 17},
+    {"x": 39, "y": 2, "w": 1, "h": 12, "tile": 17},
+    {"x": 10, "y": 4, "w": 6, "h": 1, "tile": 9},
+    {"x": 22, "y": 6, "w": 5, "h": 1, "tile": 9},
+    {"x": 16, "y": 9, "w": 4, "h": 1, "tile": 9}
+  ],
+  "enemies": [
+    {"type": "melee", "pos": [400, 86], "patrolMin": 300, "patrolMax": 550, "hp": 30, "atk": 6}
+  ],
+  "triggers": [
+    {"type": "checkpoint", "pos": [100, 86]},
+    {"type": "door", "pos": [1220, 86], "target": "corridor", "spawn": [80, 86], "label": "Corridor ->"}
+  ],
+  "pickups": [
+    {"type": "doubleJump", "pos": [530, 230], "label": "Double Jump!"}
+  ]
+}

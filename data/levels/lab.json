@@ -1,0 +1,39 @@
+{
+  "name": "lab",
+  "displayName": "Underground Lab",
+  "width": 45,
+  "height": 22,
+  "tileSize": 32,
+  "bgColor": [0.05, 0.08, 0.06],
+  "bgImage": "bg/Map_back_2.png",
+  "bgmName": "bgm2",
+  "defaultSpawn": [80, 86],
+  "platforms": [
+    {"x": 0, "y": 0, "w": 45, "h": 1, "tile": 11},
+    {"x": 0, "y": 1, "w": 45, "h": 1, "tile": 9},
+    {"x": 0, "y": 2, "w": 1, "h": 18, "tile": 17},
+    {"x": 44, "y": 2, "w": 1, "h": 18, "tile": 17},
+    {"x": 5, "y": 5, "w": 4, "h": 1, "tile": 9},
+    {"x": 12, "y": 8, "w": 4, "h": 1, "tile": 9},
+    {"x": 5, "y": 11, "w": 4, "h": 1, "tile": 9},
+    {"x": 12, "y": 14, "w": 4, "h": 1, "tile": 9},
+    {"x": 20, "y": 4, "w": 8, "h": 1, "tile": 9},
+    {"x": 32, "y": 6, "w": 6, "h": 1, "tile": 9},
+    {"x": 25, "y": 10, "w": 5, "h": 1, "tile": 9},
+    {"x": 35, "y": 12, "w": 6, "h": 1, "tile": 9}
+  ],
+  "enemies": [
+    {"type": "hybrid", "pos": [400, 86], "patrolMin": 300, "patrolMax": 650, "hp": 60, "atk": 12},
+    {"type": "ranged", "pos": [800, 86], "patrolMin": 700, "patrolMax": 1000, "hp": 40, "atk": 14},
+    {"type": "melee", "pos": [1100, 86], "patrolMin": 950, "patrolMax": 1250, "hp": 55, "atk": 11}
+  ],
+  "triggers": [
+    {"type": "checkpoint", "pos": [500, 86]},
+    {"type": "door", "pos": [60, 86], "target": "corridor", "spawn": [1660, 86], "label": "<- Corridor"},
+    {"type": "door", "pos": [1380, 86], "target": "guard", "spawn": [80, 86], "label": "Guard Room ->"}
+  ],
+  "pickups": [
+    {"type": "teleport", "pos": [400, 470], "label": "Shadow Step!"},
+    {"type": "hammer", "pos": [1100, 86], "label": "War Hammer!"}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "boss",
+  "displayName": "BOSS Chamber",
+  "width": 45,
+  "height": 18,
+  "tileSize": 32,
+  "bgColor": [0.15, 0.03, 0.03],
+  "bgmName": "boss_battle",
+  "defaultSpawn": [80, 86],
+  "locked": true,
+  "platforms": [
+    {"x": 0, "y": 0, "w": 45, "h": 1, "tile": 11},
+    {"x": 0, "y": 1, "w": 45, "h": 1, "tile": 9},
+    {"x": 0, "y": 2, "w": 1, "h": 14, "tile": 17},
+    {"x": 44, "y": 2, "w": 1, "h": 14, "tile": 17},
+    {"x": 10, "y": 4, "w": 6, "h": 1, "tile": 9},
+    {"x": 28, "y": 4, "w": 6, "h": 1, "tile": 9},
+    {"x": 18, "y": 7, "w": 8, "h": 1, "tile": 9},
+    {"x": 6, "y": 10, "w": 4, "h": 1, "tile": 9},
+    {"x": 34, "y": 10, "w": 4, "h": 1, "tile": 9}
+  ],
+  "enemies": [
+    {"type": "boss", "pos": [700, 86], "patrolMin": 300, "patrolMax": 1100, "hp": 300, "atk": 20}
+  ],
+  "triggers": [
+    {"type": "door", "pos": [60, 86], "target": "guard", "spawn": [1020, 86], "label": "<- Guard Room"}
+  ]
+}

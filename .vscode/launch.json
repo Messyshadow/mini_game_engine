@@ -1,0 +1,241 @@
+{
+    // ========================================================================
+    // VSCode 调试配置文件
+    // ========================================================================
+    // 
+    // 使用方法：
+    // 1. 先用CMake构建项目（Debug模式）
+    // 2. 按F5或点击调试按钮
+    // 3. 从下拉菜单选择要调试的示例
+    //
+    // 快捷键：
+    // - F5: 开始调试
+    // - F9: 切换断点
+    // - F10: 单步跳过
+    // - F11: 单步进入
+    // - Shift+F11: 单步跳出
+    // - Shift+F5: 停止调试
+    //
+    "version": "0.2.0",
+    "configurations": [
+        // ====================================================================
+        // 示例01：基础窗口与向量数学
+        // ====================================================================
+        {
+            "name": "01 - Window & Vector Math",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/01_window.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例02：三角形渲染
+        // ====================================================================
+        {
+            "name": "02 - Triangle Rendering",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/02_triangle.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例03：矩阵变换
+        // ====================================================================
+        {
+            "name": "03 - Matrix Transform",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/03_transform.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例04：纹理与精灵
+        // ====================================================================
+        {
+            "name": "04 - Texture & Sprite",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/04_sprite.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例05：碰撞检测
+        // ====================================================================
+        {
+            "name": "05 - Collision Detection",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/05_collision.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例06：精灵动画
+        // ====================================================================
+        {
+            "name": "06 - Sprite Animation",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/06_animation.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例07：平台跳跃物理
+        // ====================================================================
+        {
+            "name": "07 - Platformer Physics",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/07_platformer_physics.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例08：角色控制器
+        // ====================================================================
+        {
+            "name": "08 - Character Controller",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/08_character_controller.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例09：瓦片地图
+        // ====================================================================
+        {
+            "name": "09 - Tilemap System",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/09_tilemap.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例10：纹理瓦片地图
+        // ====================================================================
+        {
+            "name": "10 - Textured Tilemap",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/10_textured_tilemap.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例11：精灵动画系统
+        // ====================================================================
+        {
+            "name": "11 - Sprite Animation",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/11_sprite_animation.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // ====================================================================
+        // 示例12：摄像机系统
+        // ====================================================================
+        {
+            "name": "12 - Camera System",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/12_camera_system.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // ====================================================================
+        // 示例13：音频系统
+        // ====================================================================
+        {
+            "name": "13 - Audio System",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/13_audio_system.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        // [GDB] 示例01 - 使用GDB调试（MinGW用户）
+        // ====================================================================
+        {
+            "name": "[GDB] 01 - Window",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/01_window.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/Debug",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "CMake: build"
+        }
+    ]
+}

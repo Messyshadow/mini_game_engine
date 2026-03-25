@@ -91,6 +91,7 @@
 # 1. 下载第三方依赖
 setup.bat
 download_miniaudio.bat
+有时候下载链接不好使，这里我准备了 当前目录下 template、data、depends目录下所有需要的文件
 
 # 2. 构建
 mkdir build && cd build

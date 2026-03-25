@@ -1,0 +1,59 @@
+{
+    // ========================================================================
+    // VSCode C++ 智能感知配置
+    // ========================================================================
+    //
+    // 这个文件配置：
+    // - 头文件搜索路径（用于代码补全和跳转）
+    // - 编译器路径
+    // - C++标准版本
+    //
+    // 如果智能感知不工作，检查：
+    // 1. 是否安装了C/C++扩展
+    // 2. includePath是否正确指向依赖目录
+    //
+    "configurations": [
+        {
+            "name": "Win32-MSVC",
+            "includePath": [
+                "${workspaceFolder}/source",
+                "${workspaceFolder}/../template/depends/glfw-3.3-3.4/include",
+                "${workspaceFolder}/../template/depends/glfw-3.3-3.4/deps",
+                "${workspaceFolder}/../template/depends/imgui",
+                "${workspaceFolder}/../template/depends/stb"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "WIN32"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "Win32-GCC",
+            "includePath": [
+                "${workspaceFolder}/source",
+                "${workspaceFolder}/../template/depends/glfw-3.3-3.4/include",
+                "${workspaceFolder}/../template/depends/glfw-3.3-3.4/deps",
+                "${workspaceFolder}/../template/depends/imgui",
+                "${workspaceFolder}/../template/depends/stb"
+            ],
+            "defines": [
+                "_DEBUG",
+                "WIN32"
+            ],
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

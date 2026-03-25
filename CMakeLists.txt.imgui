@@ -1,0 +1,30 @@
+# ============================================================================
+# ImGui 配置文件
+# ============================================================================
+
+# 头文件目录
+include_directories("depends/imgui")
+include_directories("depends/imgui/backends")
+
+# ImGui核心源文件
+set(imgui_src 
+    depends/imgui/imgui.cpp
+    depends/imgui/imgui_demo.cpp
+    depends/imgui/imgui_draw.cpp
+    depends/imgui/imgui_tables.cpp
+    depends/imgui/imgui_widgets.cpp)
+
+# 后端源文件（GLFW + OpenGL3）
+if (WIN32)
+    list(APPEND imgui_src 
+        "depends/imgui/backends/imgui_impl_glfw.cpp" 
+        "depends/imgui/backends/imgui_impl_opengl3.cpp")
+elseif (APPLE)
+    list(APPEND imgui_src 
+        "depends/imgui/backends/imgui_impl_glfw.cpp" 
+        "depends/imgui/backends/imgui_impl_opengl3.cpp")
+elseif (UNIX)
+    list(APPEND imgui_src 
+        "depends/imgui/backends/imgui_impl_glfw.cpp" 
+        "depends/imgui/backends/imgui_impl_opengl3.cpp")
+endif ()

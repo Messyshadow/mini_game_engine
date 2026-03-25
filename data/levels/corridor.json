@@ -1,0 +1,37 @@
+{
+  "name": "corridor",
+  "displayName": "Mechanical Corridor",
+  "width": 55,
+  "height": 18,
+  "tileSize": 32,
+  "bgColor": [0.06, 0.05, 0.12],
+  "bgImage": "bg/Map_next_0.png",
+  "bgmName": "bgm2",
+  "defaultSpawn": [80, 86],
+  "platforms": [
+    {"x": 0, "y": 0, "w": 55, "h": 1, "tile": 11},
+    {"x": 0, "y": 1, "w": 55, "h": 1, "tile": 9},
+    {"x": 0, "y": 2, "w": 1, "h": 14, "tile": 17},
+    {"x": 54, "y": 2, "w": 1, "h": 14, "tile": 17},
+    {"x": 8, "y": 4, "w": 8, "h": 1, "tile": 9},
+    {"x": 20, "y": 6, "w": 6, "h": 1, "tile": 9},
+    {"x": 30, "y": 4, "w": 10, "h": 1, "tile": 9},
+    {"x": 44, "y": 5, "w": 6, "h": 1, "tile": 9},
+    {"x": 14, "y": 9, "w": 5, "h": 1, "tile": 9},
+    {"x": 36, "y": 8, "w": 4, "h": 1, "tile": 9}
+  ],
+  "enemies": [
+    {"type": "melee", "pos": [350, 86], "patrolMin": 250, "patrolMax": 550, "hp": 50, "atk": 10},
+    {"type": "ranged", "pos": [800, 86], "patrolMin": 700, "patrolMax": 1000, "hp": 35, "atk": 12},
+    {"type": "melee", "pos": [1200, 86], "patrolMin": 1050, "patrolMax": 1400, "hp": 50, "atk": 10}
+  ],
+  "triggers": [
+    {"type": "checkpoint", "pos": [600, 86]},
+    {"type": "door", "pos": [60, 86], "target": "hall", "spawn": [1180, 86], "label": "<- Hall"},
+    {"type": "door", "pos": [1700, 86], "target": "lab", "spawn": [80, 86], "label": "Lab ->"}
+  ],
+  "pickups": [
+    {"type": "wallJump", "pos": [470, 310], "label": "Wall Jump!"},
+    {"type": "sword", "pos": [900, 86], "label": "Sword!"}
+  ]
+}
