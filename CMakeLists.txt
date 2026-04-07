@@ -26,6 +26,7 @@ file(COPY "./template/data/" DESTINATION "../data/")
 include_directories("depends")
 include_directories("depends/stb")
 include_directories("depends/miniaudio")
+include_directories("depends/assimp/include")
 include_directories("source")
 
 # 收集引擎源文件
@@ -51,6 +52,10 @@ file(GLOB example_15_cpp examples/15_enemy_ai/*.cpp)
 file(GLOB example_16_cpp examples/16_room_system/*.cpp)
 file(GLOB example_17_cpp examples/17_ui_system/*.cpp)
 file(GLOB example_18_cpp examples/18_full_demo/*.cpp)
+file(GLOB example_19_cpp examples/19_3d_basics/*.cpp)
+file(GLOB example_20_cpp examples/20_model_loading/*.cpp)
+file(GLOB example_21_cpp examples/21_lighting_system/*.cpp)
+file(GLOB example_22_cpp examples/22_materials_textures/*.cpp)
 
 # ============================================================================
 # 示例01：基础窗口
@@ -250,6 +255,67 @@ add_executable(18_full_demo
     ${example_18_cpp}
 )
 
+# ============================================================================
+# 示例19：3D渲染基础
+# ============================================================================
+add_executable(19_3d_basics 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_19_cpp}
+)
+
+# ============================================================================
+# 示例20：3D模型加载（需要Assimp）
+# ============================================================================
+add_executable(20_model_loading 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_20_cpp}
+)
+
+# Assimp链接（只有第20章及之后需要）
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(20_model_loading 
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+    # 拷贝DLL到输出目录
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/bin/assimp-vc142-mt.dll" 
+         DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/bin/assimp-vc142-mt.dll" 
+         DESTINATION "${CMAKE_BINARY_DIR}/Release")
+endif()
+
+# ============================================================================
+# 示例21：光照系统（需要Assimp）
+# ============================================================================
+add_executable(21_lighting_system 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_21_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(21_lighting_system 
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+
+# ============================================================================
+# 示例22：材质与纹理
+# ============================================================================
+add_executable(22_materials_textures 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_22_cpp}
+)
+
 # MSVC运行时库设置
 if (MSVC)
     set_property(TARGET 01_window PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -270,8 +336,12 @@ if (MSVC)
     set_property(TARGET 16_room_system PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 17_ui_system PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 18_full_demo PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 19_3d_basics PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 20_model_loading PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 21_lighting_system PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 22_materials_textures PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 18_full_demo)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 22_materials_textures)
     
     set_target_properties(01_window PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(02_triangle PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -291,4 +361,8 @@ if (MSVC)
     set_target_properties(16_room_system PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(17_ui_system PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(18_full_demo PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(19_3d_basics PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(20_model_loading PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(21_lighting_system PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(22_materials_textures PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 endif ()
