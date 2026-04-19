@@ -59,6 +59,7 @@ file(GLOB example_22_cpp examples/22_materials_textures/*.cpp)
 file(GLOB example_23_cpp examples/23_3d_camera/*.cpp)
 file(GLOB example_24_cpp examples/24_character_controller_3d/*.cpp)
 file(GLOB example_25_cpp examples/25_skeletal_animation/*.cpp)
+file(GLOB example_26_cpp examples/26_3d_combat/*.cpp)
 
 # ============================================================================
 # 示例01：基础窗口
@@ -362,7 +363,23 @@ add_executable(25_skeletal_animation
     ${example_25_cpp}
 )
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
-    target_link_libraries(25_skeletal_animation 
+    target_link_libraries(25_skeletal_animation
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+
+# ============================================================================
+# 示例26：3D战斗系统
+# ============================================================================
+add_executable(26_3d_combat
+    ${glfw_sources}
+    ${imgui_src}
+    ${engine_cpp}
+    ${engine_h}
+    ${example_26_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(26_3d_combat
         "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
         "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
 endif()
@@ -394,8 +411,9 @@ if (MSVC)
     set_property(TARGET 23_3d_camera PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 24_character_controller_3d PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 25_skeletal_animation PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 25_skeletal_animation)
+    set_property(TARGET 26_3d_combat PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 26_3d_combat)
     
     set_target_properties(01_window PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(02_triangle PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -422,4 +440,5 @@ if (MSVC)
     set_target_properties(23_3d_camera PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(24_character_controller_3d PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(25_skeletal_animation PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(26_3d_combat PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 endif ()

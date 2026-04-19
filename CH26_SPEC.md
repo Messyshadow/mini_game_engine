@@ -1,6 +1,55 @@
 # 第26章开发规范：3D战斗系统
 
-## 必读：先读 PROJECT_CONTEXT.md 了解项目全部规范
+## 必读：先读 PROJECT_CONTEXT.md 和 LOCAL_ASSETS.md 了解项目规范和素材位置
+
+## 关键修复要求（上一版存在的问题）
+
+### 1. 必须有简单物理碰撞
+- 角色不能穿过场景物体（墙壁、箱子、柱子）
+- 实现AABB碰撞检测：角色和场景物体之间
+- 碰撞响应：检测到碰撞后把角色推出去（简单的位置修正）
+- 不需要PhysX，用自写的简单AABB碰撞即可
+
+```cpp
+// 简单AABB碰撞检测示例
+struct AABB3D {
+    Vec3 min, max;
+    bool Intersects(const AABB3D& other) const {
+        return (min.x <= other.max.x && max.x >= other.min.x) &&
+               (min.y <= other.max.y && max.y >= other.min.y) &&
+               (min.z <= other.max.z && max.z >= other.min.z);
+    }
+};
+
+// 每帧检测角色和所有场景物体的碰撞，碰到就推回去
+void ResolveCollision(Vec3& playerPos, float playerRadius, const AABB3D& obstacle) {
+    // 找到AABB上离角色最近的点
+    Vec3 closest;
+    closest.x = std::max(obstacle.min.x, std::min(playerPos.x, obstacle.max.x));
+    closest.y = std::max(obstacle.min.y, std::min(playerPos.y, obstacle.max.y));
+    closest.z = std::max(obstacle.min.z, std::min(playerPos.z, obstacle.max.z));
+    
+    Vec3 diff = playerPos - closest;
+    float dist = length(diff);
+    if (dist < playerRadius && dist > 0.001f) {
+        Vec3 pushDir = diff * (1.0f / dist);
+        playerPos = closest + pushDir * playerRadius;
+    }
+}
+```
+
+### 2. 攻击动画必须正确播放
+- 按J攻击时，角色播放Punching.fbx动画
+- 攻击动画播放期间不能被移动打断
+- 攻击动画结束后自动回到Idle
+- 使用第25章的Animator系统播放骨骼动画
+- 攻击时在角色前方生成Hitbox（球体碰撞检测）
+
+### 3. 敌人必须有视觉反馈
+- 受击时模型闪红色（通过Shader的uBaseColor临时变红）
+- 受击后有短暂无敌时间（0.5秒）
+- 血条显示在敌人头顶（用ImGui或简单的彩色平面）
+- 死亡时播放死亡动画然后消失
 
 ## 第26章需要创建的文件
 
