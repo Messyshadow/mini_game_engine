@@ -56,6 +56,9 @@ file(GLOB example_19_cpp examples/19_3d_basics/*.cpp)
 file(GLOB example_20_cpp examples/20_model_loading/*.cpp)
 file(GLOB example_21_cpp examples/21_lighting_system/*.cpp)
 file(GLOB example_22_cpp examples/22_materials_textures/*.cpp)
+file(GLOB example_23_cpp examples/23_3d_camera/*.cpp)
+file(GLOB example_24_cpp examples/24_character_controller_3d/*.cpp)
+file(GLOB example_25_cpp examples/25_skeletal_animation/*.cpp)
 
 # ============================================================================
 # 示例01：基础窗口
@@ -316,6 +319,54 @@ add_executable(22_materials_textures
     ${example_22_cpp}
 )
 
+# ============================================================================
+# 示例23：3D摄像机系统（需要Assimp加载模型）
+# ============================================================================
+add_executable(23_3d_camera 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_23_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(23_3d_camera 
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+
+# ============================================================================
+# 示例24：3D角色控制器
+# ============================================================================
+add_executable(24_character_controller_3d 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_24_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(24_character_controller_3d 
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+
+# ============================================================================
+# 示例25：骨骼动画
+# ============================================================================
+add_executable(25_skeletal_animation 
+    ${glfw_sources} 
+    ${imgui_src} 
+    ${engine_cpp} 
+    ${engine_h}
+    ${example_25_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(25_skeletal_animation 
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+
 # MSVC运行时库设置
 if (MSVC)
     set_property(TARGET 01_window PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -340,8 +391,11 @@ if (MSVC)
     set_property(TARGET 20_model_loading PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 21_lighting_system PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 22_materials_textures PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 23_3d_camera PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 24_character_controller_3d PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 25_skeletal_animation PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 22_materials_textures)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 25_skeletal_animation)
     
     set_target_properties(01_window PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(02_triangle PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -365,4 +419,7 @@ if (MSVC)
     set_target_properties(20_model_loading PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(21_lighting_system PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(22_materials_textures PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(23_3d_camera PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(24_character_controller_3d PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(25_skeletal_animation PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 endif ()
