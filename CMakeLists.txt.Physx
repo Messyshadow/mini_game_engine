@@ -1,0 +1,57 @@
+# PhysX自动下载、解压、配置
+# 用法：在主CMakeLists.txt中 include(CMakeLists.txt.Physx)
+# 如果 depends/physx/ 已存在则跳过下载解压
+
+# 检测physx目录是否已存在（手动拷贝或之前已解压）
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx/physx/include/PxPhysicsAPI.h")
+    MESSAGE("found PhysX (depends/physx/)")
+else()
+    # 下载PhysX
+    function(DownloadPhysx)
+        MESSAGE("Download physx-4.1.7z")
+        file(DOWNLOAD "https://github.com/ThisisGame/PhysX/releases/download/v6.4/physx-4.1.7z"
+             "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx-4.1.7z" SHOW_PROGRESS)
+    endfunction()
+
+    # 检测是否已下载
+    set(NEED_DOWNLOAD TRUE)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx-4.1.7z")
+        file(SIZE "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx-4.1.7z" SIZE_PHYSX)
+        if(${SIZE_PHYSX} EQUAL 46553903)
+            MESSAGE("physx-4.1.7z is valid")
+            set(NEED_DOWNLOAD FALSE)
+        else()
+            MESSAGE("physx-4.1.7z is invalid (${SIZE_PHYSX} bytes), re-downloading")
+        endif()
+    endif()
+
+    if(NEED_DOWNLOAD)
+        DownloadPhysx()
+    endif()
+
+    # 解压
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx-4.1")
+        MESSAGE("extracting physx-4.1.7z...")
+        file(ARCHIVE_EXTRACT INPUT "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx-4.1.7z"
+             DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/depends/" VERBOSE)
+    endif()
+
+    # 拷贝到标准位置
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx")
+        file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx-4.1/"
+             DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx/")
+    endif()
+endif()
+
+# 头文件
+include_directories("depends/physx/physx/include")
+include_directories("depends/physx/pxshared/include")
+
+# 链接（MSVC Windows x64）
+if(MSVC)
+    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/depends/physx/physx/bin/win.x86_64.vc142.mt/debug")
+    # DLL拷贝到输出目录
+    file(GLOB PHYSX_DLLS "${CMAKE_CURRENT_SOURCE_DIR}/depends/physx/physx/bin/win.x86_64.vc142.mt/debug/*.dll")
+    file(COPY ${PHYSX_DLLS} DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+    file(COPY ${PHYSX_DLLS} DESTINATION "${CMAKE_BINARY_DIR}/Release")
+endif()

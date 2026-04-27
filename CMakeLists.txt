@@ -13,6 +13,7 @@ endif ()
 # 包含子模块CMake文件
 include(CMakeLists.txt.glfw)
 include(CMakeLists.txt.imgui)
+include(CMakeLists.txt.Physx)
 
 # 拷贝depends目录（从template拷贝到build同级的depends）
 file(COPY "./template/depends/glfw-3.3-3.4/" DESTINATION "../depends/glfw-3.3-3.4/")
@@ -60,6 +61,8 @@ file(GLOB example_23_cpp examples/23_3d_camera/*.cpp)
 file(GLOB example_24_cpp examples/24_character_controller_3d/*.cpp)
 file(GLOB example_25_cpp examples/25_skeletal_animation/*.cpp)
 file(GLOB example_26_cpp examples/26_3d_combat/*.cpp)
+file(GLOB example_27_cpp examples/27_enemy_ai/*.cpp)
+file(GLOB example_28_cpp examples/28_scene_level/*.cpp)
 
 # ============================================================================
 # 示例01：基础窗口
@@ -384,6 +387,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
         "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
 endif()
 
+# ============================================================================
+# 示例27：敌人AI + PhysX物理
+# ============================================================================
+add_executable(27_enemy_ai
+    ${glfw_sources}
+    ${imgui_src}
+    ${engine_cpp}
+    ${engine_h}
+    ${example_27_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(27_enemy_ai
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+if(MSVC)
+    target_link_libraries(27_enemy_ai
+        PhysX_64 PhysXFoundation_64 PhysXExtensions_static_64
+        PhysXPvdSDK_static_64 PhysXCommon_64 PhysXCooking_64)
+endif()
+
+# ============================================================================
+# 示例28：场景与关卡
+# ============================================================================
+add_executable(28_scene_level
+    ${glfw_sources}
+    ${imgui_src}
+    ${engine_cpp}
+    ${engine_h}
+    ${example_28_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(28_scene_level
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+
 # MSVC运行时库设置
 if (MSVC)
     set_property(TARGET 01_window PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -412,8 +452,10 @@ if (MSVC)
     set_property(TARGET 24_character_controller_3d PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 25_skeletal_animation PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 26_3d_combat PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 27_enemy_ai PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 28_scene_level PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 26_3d_combat)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 28_scene_level)
     
     set_target_properties(01_window PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(02_triangle PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -441,4 +483,6 @@ if (MSVC)
     set_target_properties(24_character_controller_3d PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(25_skeletal_animation PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(26_3d_combat PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(27_enemy_ai PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(28_scene_level PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 endif ()
