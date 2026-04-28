@@ -425,6 +425,7 @@ bool Initialize() {
         std::cerr << "Failed to init skybox!" << std::endl;
         return false;
     }
+    g_skybox.LoadCubeMap("data/texture/skybox");
 
     // 蒙皮着色器
     g_skinShader = std::make_unique<Shader>();
@@ -486,37 +487,37 @@ bool Initialize() {
     g_cubeMesh = Mesh3D::CreateCube(1.0f);
 
     // 粒子初始化
-    g_hitParticles.maxParticles = 100;
-    g_hitParticles.particleLife = 0.4f;
-    g_hitParticles.particleSize = 0.15f;
-    g_hitParticles.startColor = Vec4(1, 0.8f, 0.3f, 1);
-    g_hitParticles.endColor = Vec4(1, 0.2f, 0, 0);
-    g_hitParticles.startSpeed = 8.0f;
-    g_hitParticles.spread = 1.5f;
-    g_hitParticles.gravity = -5.0f;
+    g_hitParticles.maxParticles = 150;
+    g_hitParticles.particleLife = 0.6f;
+    g_hitParticles.particleSize = 0.35f;
+    g_hitParticles.startColor = Vec4(1, 0.9f, 0.4f, 1);
+    g_hitParticles.endColor = Vec4(1, 0.3f, 0.05f, 0);
+    g_hitParticles.startSpeed = 10.0f;
+    g_hitParticles.spread = 1.2f;
+    g_hitParticles.gravity = -3.0f;
     g_hitParticles.continuous = false;
     g_hitParticles.Init();
 
-    g_dashParticles.maxParticles = 80;
-    g_dashParticles.particleLife = 0.5f;
-    g_dashParticles.particleSize = 0.12f;
-    g_dashParticles.startColor = Vec4(0.3f, 0.6f, 1, 0.8f);
-    g_dashParticles.endColor = Vec4(0.1f, 0.3f, 0.8f, 0);
-    g_dashParticles.startSpeed = 2.0f;
-    g_dashParticles.spread = 0.8f;
-    g_dashParticles.gravity = 0.5f;
+    g_dashParticles.maxParticles = 100;
+    g_dashParticles.particleLife = 0.7f;
+    g_dashParticles.particleSize = 0.25f;
+    g_dashParticles.startColor = Vec4(0.4f, 0.7f, 1, 1);
+    g_dashParticles.endColor = Vec4(0.2f, 0.4f, 0.9f, 0);
+    g_dashParticles.startSpeed = 3.0f;
+    g_dashParticles.spread = 0.6f;
+    g_dashParticles.gravity = 0.3f;
     g_dashParticles.continuous = false;
     g_dashParticles.Init();
 
-    g_ambientParticles.maxParticles = 60;
-    g_ambientParticles.particleLife = 4.0f;
-    g_ambientParticles.particleSize = 0.06f;
-    g_ambientParticles.startColor = Vec4(0.9f, 0.85f, 0.7f, 0.4f);
-    g_ambientParticles.endColor = Vec4(0.8f, 0.8f, 0.7f, 0);
-    g_ambientParticles.startSpeed = 0.5f;
+    g_ambientParticles.maxParticles = 80;
+    g_ambientParticles.particleLife = 5.0f;
+    g_ambientParticles.particleSize = 0.1f;
+    g_ambientParticles.startColor = Vec4(1, 0.95f, 0.8f, 0.5f);
+    g_ambientParticles.endColor = Vec4(0.9f, 0.85f, 0.7f, 0);
+    g_ambientParticles.startSpeed = 0.4f;
     g_ambientParticles.spread = 3.14f;
-    g_ambientParticles.gravity = -0.3f;
-    g_ambientParticles.emitRate = 5;
+    g_ambientParticles.gravity = -0.2f;
+    g_ambientParticles.emitRate = 8;
     g_ambientParticles.direction = Vec3(0, -1, 0);
     g_ambientParticles.continuous = true;
     g_ambientParticles.Init();
@@ -555,10 +556,10 @@ bool Initialize() {
         sc.skyTop = Vec3(0.2f, 0.4f, 0.8f);
         sc.skyBottom = Vec3(0.8f, 0.85f, 0.9f);
         sc.skyHorizon = Vec3(0.9f, 0.9f, 0.95f);
-        sc.ambient = 0.25f;
+        sc.ambient = 0.35f;
         sc.sunDir = Vec3(0.4f, 0.7f, 0.3f);
         sc.sunColor = Vec3(1, 0.95f, 0.9f);
-        sc.sunIntensity = 1.2f;
+        sc.sunIntensity = 1.5f;
         g_sceneConfigs.push_back(sc);
     }
     {
@@ -568,10 +569,10 @@ bool Initialize() {
         sc.skyTop = Vec3(0.1f, 0.1f, 0.3f);
         sc.skyBottom = Vec3(0.9f, 0.4f, 0.2f);
         sc.skyHorizon = Vec3(1.0f, 0.6f, 0.3f);
-        sc.ambient = 0.2f;
-        sc.sunDir = Vec3(0.2f, 0.3f, 0.5f);
-        sc.sunColor = Vec3(1, 0.6f, 0.4f);
-        sc.sunIntensity = 0.9f;
+        sc.ambient = 0.3f;
+        sc.sunDir = Vec3(0.3f, 0.5f, 0.4f);
+        sc.sunColor = Vec3(1, 0.7f, 0.5f);
+        sc.sunIntensity = 1.3f;
         g_sceneConfigs.push_back(sc);
     }
 
@@ -624,7 +625,7 @@ void PerformAttack() {
 
             // 命中火花粒子
             Vec3 sparkPos = (hitCenter + enemy.position + Vec3(0, 0.9f, 0)) * 0.5f;
-            g_hitParticles.Burst(sparkPos, 15);
+            g_hitParticles.Burst(sparkPos, 25);
             g_audio.PlaySFX("hit", 0.7f);
         }
     }
@@ -741,7 +742,7 @@ void Update(float dt) {
 
     // 冲刺拖尾粒子
     if (g_player.state.dashing) {
-        g_dashParticles.Burst(g_player.position + Vec3(0, 0.5f, 0), 3);
+        g_dashParticles.Burst(g_player.position + Vec3(0, 0.5f, 0), 5);
     }
 
     g_player.Update(gameDt);
@@ -1210,15 +1211,18 @@ void RenderImGui() {
         }
 
         if (ImGui::BeginTabItem("Skybox")) {
+            ImGui::Checkbox("Use Texture CubeMap", &g_skybox.useTexture);
+            ImGui::Separator();
+            ImGui::Text("Procedural Colors:");
             ImGui::ColorEdit3("Top", &g_skybox.topColor.x);
             ImGui::ColorEdit3("Bottom", &g_skybox.bottomColor.x);
             ImGui::ColorEdit3("Horizon", &g_skybox.horizonColor.x);
             ImGui::Separator();
-            if (ImGui::Button("Day Preset")) g_skybox.SetDayPreset();
+            if (ImGui::Button("Day")) g_skybox.SetDayPreset();
             ImGui::SameLine();
-            if (ImGui::Button("Dusk Preset")) g_skybox.SetDuskPreset();
+            if (ImGui::Button("Dusk")) g_skybox.SetDuskPreset();
             ImGui::SameLine();
-            if (ImGui::Button("Night Preset")) g_skybox.SetNightPreset();
+            if (ImGui::Button("Night")) g_skybox.SetNightPreset();
             ImGui::EndTabItem();
         }
 
@@ -1237,17 +1241,17 @@ void RenderImGui() {
             ImGui::Separator();
             if (ImGui::Button("Day Light")) {
                 g_dirLight.dir = Vec3(0.4f,0.7f,0.3f); g_dirLight.color = Vec3(1,0.95f,0.9f);
-                g_dirLight.intensity = 1.2f; g_ambient = 0.25f;
+                g_dirLight.intensity = 1.5f; g_ambient = 0.35f;
             }
             ImGui::SameLine();
             if (ImGui::Button("Dusk Light")) {
-                g_dirLight.dir = Vec3(0.2f,0.3f,0.5f); g_dirLight.color = Vec3(1,0.6f,0.4f);
-                g_dirLight.intensity = 0.9f; g_ambient = 0.2f;
+                g_dirLight.dir = Vec3(0.3f,0.5f,0.4f); g_dirLight.color = Vec3(1,0.7f,0.5f);
+                g_dirLight.intensity = 1.3f; g_ambient = 0.3f;
             }
             ImGui::SameLine();
             if (ImGui::Button("Night Light")) {
-                g_dirLight.dir = Vec3(0.1f,0.8f,0.2f); g_dirLight.color = Vec3(0.3f,0.3f,0.5f);
-                g_dirLight.intensity = 0.5f; g_ambient = 0.1f;
+                g_dirLight.dir = Vec3(0.1f,0.8f,0.2f); g_dirLight.color = Vec3(0.4f,0.4f,0.6f);
+                g_dirLight.intensity = 0.7f; g_ambient = 0.15f;
             }
             ImGui::EndTabItem();
         }
