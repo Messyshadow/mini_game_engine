@@ -536,14 +536,21 @@ bool Initialize() {
     // 骨骼矩阵初始化
     for (int i = 0; i < MAX_BONES; i++) g_boneMatrices[i] = Mat4::Identity();
 
-    // 音频
+    // 音频（尝试多个路径前缀）
     if (g_audio.Initialize()) {
+        const char* prefixes[] = {"", "../", "../../"};
         const char* sfxNames[]  = {"hit", "slash", "dash", "jump", "land", "transition"};
         const char* sfxFiles[]  = {"data/audio/sfx3d/hit.mp3", "data/audio/sfx3d/slash.wav",
                                    "data/audio/sfx3d/dash.mp3", "data/audio/sfx3d/jump.mp3",
                                    "data/audio/sfx3d/land.mp3", "data/audio/sfx3d/unsheathe.mp3"};
-        for (int i = 0; i < 6; i++) g_audio.LoadSound(sfxNames[i], sfxFiles[i]);
-        g_audio.LoadMusic("bgm", "data/audio/bgm/windaswarriors.mp3");
+        for (int i = 0; i < 6; i++) {
+            for (auto& pfx : prefixes) {
+                if (g_audio.LoadSound(sfxNames[i], std::string(pfx) + sfxFiles[i])) break;
+            }
+        }
+        for (auto& pfx : prefixes) {
+            if (g_audio.LoadMusic("bgm", std::string(pfx) + "data/audio/bgm/windaswarriors.mp3")) break;
+        }
         g_audio.PlayMusic("bgm", 0.3f);
     }
 
