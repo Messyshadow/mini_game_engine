@@ -28,6 +28,7 @@ include_directories("depends")
 include_directories("depends/stb")
 include_directories("depends/miniaudio")
 include_directories("depends/assimp/include")
+include_directories("depends/fmod/core/inc")
 include_directories("source")
 
 # 收集引擎源文件
@@ -63,6 +64,7 @@ file(GLOB example_25_cpp examples/25_skeletal_animation/*.cpp)
 file(GLOB example_26_cpp examples/26_3d_combat/*.cpp)
 file(GLOB example_27_cpp examples/27_enemy_ai/*.cpp)
 file(GLOB example_28_cpp examples/28_scene_level/*.cpp)
+file(GLOB example_29_cpp examples/29_ui_audio/*.cpp)
 
 # ============================================================================
 # 示例01：基础窗口
@@ -424,6 +426,30 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
         "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
 endif()
 
+# ============================================================================
+# 示例29：UI与音频 + FMOD
+# ============================================================================
+add_executable(29_ui_audio
+    ${glfw_sources}
+    ${imgui_src}
+    ${engine_cpp}
+    ${engine_h}
+    ${example_29_cpp}
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib")
+    target_link_libraries(29_ui_audio
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/assimp-vc142-mt.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/assimp/lib/zlibstatic.lib")
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/fmod/core/lib/fmod_vc.lib")
+    target_link_libraries(29_ui_audio
+        "${CMAKE_CURRENT_SOURCE_DIR}/depends/fmod/core/lib/fmod_vc.lib")
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/depends/fmod/core/lib/fmod.dll"
+         DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/depends/fmod/core/lib/fmod.dll"
+         DESTINATION "${CMAKE_BINARY_DIR}/Release")
+endif()
+
 # MSVC运行时库设置
 if (MSVC)
     set_property(TARGET 01_window PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -454,8 +480,9 @@ if (MSVC)
     set_property(TARGET 26_3d_combat PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 27_enemy_ai PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(TARGET 28_scene_level PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set_property(TARGET 29_ui_audio PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 28_scene_level)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 29_ui_audio)
     
     set_target_properties(01_window PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(02_triangle PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -485,4 +512,5 @@ if (MSVC)
     set_target_properties(26_3d_combat PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(27_enemy_ai PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_target_properties(28_scene_level PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    set_target_properties(29_ui_audio PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 endif ()
