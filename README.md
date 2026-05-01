@@ -2,9 +2,17 @@
 
 从零开始构建游戏引擎，2D部分完成银河恶魔城Demo，3D部分将完成动作游戏Demo。
 
+**当前进度：第29章/30章 — UI与音频整合(FMOD 3D空间音效)**
+
 ## 项目简介
 
 本项目是一个循序渐进的游戏引擎教程。2D部分共18章，从创建窗口到完整可玩的银河恶魔城风格游戏。3D部分第19-30章，从3D渲染基础到完整3D动作游戏Demo。
+
+**最新章节（第29章）新增：**
+- FMOD 3D空间音效系统 — 替换miniaudio，支持3D声源定位（敌人攻击声从敌人位置发出，距离衰减，左右声道分离）
+- 游戏UI系统 — 玩家HUD（HP/MP血条颜色渐变）、敌人头顶血条（世界坐标→屏幕坐标投影）、伤害飘字（暴击大号金字）
+- 9个音效全覆盖 — 攻击/命中/挥剑/受伤(3D) + 跳跃/落地/冲刺/拔剑(2D) + 战斗BGM(循环)
+- 编辑面板新增Audio/UI标签页 — 可实时调节主音量、BGM、SFX、3D衰减参数、血条尺寸、飘字速度
 
 ## 技术栈
 
@@ -102,10 +110,13 @@ download_miniaudio.bat
 
 # 2. 构建
 mkdir build && cd build
-cmake -G "Visual Studio 17 2022" -A x64 ..
+cmake -G "Visual Studio 16 2019" -A x64 ..
 cmake --build . --config Debug
 
-# 3. 运行2D最终Demo
+# 3. 运行最新3D Demo（第29章：UI与音频 + FMOD）
+Debug\29_ui_audio.exe
+
+# 或运行2D最终Demo（第18章）
 Debug\18_full_demo.exe
 ```
 
