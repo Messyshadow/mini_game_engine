@@ -31,6 +31,7 @@ struct EnemyAI3D {
 
     float hitTimer = 0;
     float invincibleTimer = 0;
+    float hitStunTimer = 0;
     float hurtRadius = 0.8f;
 
     bool CanSeePlayer(Vec3 playerPos) const {
@@ -75,13 +76,22 @@ struct EnemyAI3D {
         forward = Vec3(nx, 0, nz);
     }
 
+    void ReanchorPatrol() {
+        Vec3 mid((patrolPointA.x + patrolPointB.x) * 0.5f, position.y,
+                 (patrolPointA.z + patrolPointB.z) * 0.5f);
+        Vec3 offset = position - mid;
+        patrolPointA = patrolPointA + offset;
+        patrolPointB = patrolPointB + offset;
+    }
+
     void Update(float dt, Vec3 playerPos) {
-        if (state == AIState::Dead) return;
-
-        if (hp <= 0) { state = AIState::Dead; return; }
-
         if (hitTimer > 0) hitTimer -= dt;
         if (invincibleTimer > 0) invincibleTimer -= dt;
+        if (hitStunTimer > 0) hitStunTimer -= dt;
+
+        if (state == AIState::Dead) return;
+        if (hp <= 0) { state = AIState::Dead; return; }
+        if (hitStunTimer > 0) return;
         if (attackTimer > 0) attackTimer -= dt;
 
         switch (state) {

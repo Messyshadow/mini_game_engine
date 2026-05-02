@@ -351,19 +351,24 @@ public:
     static void ComputeBoneMatrices(const SkeletalModel& model,
                                     const AnimClip& clip,
                                     float time,
-                                    Mat4* output)
+                                    Mat4* output,
+                                    bool loop = true)
     {
-        // 初始化为单位矩阵
         for (int i = 0; i < MAX_BONES; i++) output[i] = Mat4::Identity();
-        
+
         if (model.nodes.empty()) return;
-        
-        // 换算到tick时间
+
         float tps = (clip.ticksPerSec > 0) ? clip.ticksPerSec : 25.0f;
-        float tickTime = std::fmod(time * tps, clip.duration);
-        if (tickTime < 0) tickTime += clip.duration;
-        
-        // 递归计算每个节点的全局变换
+        float tickTime;
+        if (loop) {
+            tickTime = std::fmod(time * tps, clip.duration);
+            if (tickTime < 0) tickTime += clip.duration;
+        } else {
+            tickTime = time * tps;
+            if (tickTime >= clip.duration) tickTime = clip.duration - 0.001f;
+            if (tickTime < 0) tickTime = 0;
+        }
+
         ComputeNodeTransform(model, clip, tickTime, model.rootNodeIndex,
                              Mat4::Identity(), output);
     }
